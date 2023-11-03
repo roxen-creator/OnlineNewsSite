@@ -76,33 +76,29 @@ function uri($reservedUrl, $class, $method, $requestMethod = "GET")
     // admin/category/create
     // admin/category/create
 
-    if(sizeof($currentUrlArray) != sizeof($reservedUrlArray) || methodField() != $requestMethod){
-            return false;
+    if (sizeof($currentUrlArray) != sizeof($reservedUrlArray) || methodField() != $requestMethod) {
+        return false;
     }
 
     // admin/category/edit/2
     // admin/category/edit/{id}
-    
- 
+
+
     $parameters = [];
-    for($key = 0; $key < sizeof($currentUrlArray); $key++)
-    {
-            if($reservedUrlArray[$key][0] == '{' && $reservedUrlArray[$key][strlen($reservedUrlArray[$key]) - 1] == "}")
-             {
-                    array_push($parameters, $currentUrlArray[$key]);
-            }
-            elseif($currentUrlArray[$key] !== $reservedUrlArray[$key]){
-                       // admin/category/delete/2
-                    // admin/category/edit/{id}
-    
-                    return false;
-            }
+    for ($key = 0; $key < sizeof($currentUrlArray); $key++) {
+        if ($reservedUrlArray[$key][0] == '{' && $reservedUrlArray[$key][strlen($reservedUrlArray[$key]) - 1] == "}") {
+            array_push($parameters, $currentUrlArray[$key]);
+        } elseif ($currentUrlArray[$key] !== $reservedUrlArray[$key]) {
+            // admin/category/delete/2
+            // admin/category/edit/{id}
+
+            return false;
+        }
     }
 
-    if(methodField() == 'POST')
-    {
-            $request = isset($_FILES) ? array_merge($_POST, $_FILES) : $_POST;
-            $parameters = array_merge([$request], $parameters);
+    if (methodField() == 'POST') {
+        $request = isset($_FILES) ? array_merge($_POST, $_FILES) : $_POST;
+        $parameters = array_merge([$request], $parameters);
     }
 
 
